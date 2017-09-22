@@ -66,9 +66,10 @@ def main():
             functions.updateLurkerStatus(username)
             message = CHAT_MSG.sub("", response)
             functions.printv(username + ": " + message, 1)
-            if message.strip()[0] == "!":
+            messge = message.strip()
+            if message[0] == "!":
                 # A command has been issued
-                fullMessage = message.strip().split(' ')
+                fullMessage = message.split(' ')
                 command = fullMessage[0][1:]
                 username = response[response.index(':') + 1: response.index('!')]
                 arguments = [botComm, username] + fullMessage[1:]

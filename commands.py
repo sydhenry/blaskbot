@@ -11,6 +11,7 @@ from functions import loadClipsDatabase as _getClipsDB
 from functions import isOp as _isOp
 from functions import printv as _printv
 from functions import getViewerList as _getViewerList
+from decorators import command_response
 import sys as _sys
 import os as _os
 import cfg as _cfg
@@ -23,53 +24,52 @@ from html import unescape as _uesc
 from tinydb import Query as _Query
 import tinydb.operations as _tdbo
 
-
+@command_response
 def time(args):
-    sock = args[0]
     # TODO: Get rid of time and replace it with datetime instead
-    _chat(sock, "At Blaskatronic HQ, it is currently " + _T.strftime("%I:%M %p %Z on %A, %B, %d, %Y."))
+    return  "At Blaskatronic HQ, it is currently " + _T.strftime("%I:%M %p %Z on %A, %B, %d, %Y.")
 
 
+@command_response
 def bb(args):
-    sock = args[0]
-    _chat(sock, "BEEP BOOP")
+    return "BEEP BOOP"
 
 
+@command_response
 def wa(args):
-    sock = args[0]
-    _chat(sock, "WEIGH ANCHOR!!!")
+    return "WEIGH ANCHOR!!!"
 
 
+@command_response
 def calc(args):
-    sock = args[0]
-    _chat(sock, "Calculated. Calculated. Calculated. Calculated. Chat disabled for 1 seconds")
+    return "Calculated. Calculated. Calculated. Calculated. Chat disabled for 1 seconds"
 
 
+@command_response
 def dece(args):
-    sock = args[0]
-    _chat(sock, "That was dece, lad!")
+    return "That was dece, lad!"
 
 
+@command_response
 def discord(args):
-    sock = args[0]
-    _chat(sock, "Chat to us on Discord at: www.discord.me/blaskatronic")
+    return "Chat to us on Discord at: www.discord.me/blaskatronic"
 
 
+@command_response
 def roll(args):
-    sock = args[0]
     try:
         dsides = int(args[2])
-        rollNumber = _R.randint(1, dsides)
-        rollString = "I rolled a D" + str(dsides)
-        if dsides > 20:
-            rollString += " (it was a REALLY big one)"
-        rollString += ", and got " + str(rollNumber) + "."
-        _chat(sock, rollString)
-    except (IndexError, ValueError) as e:
-        if isinstance(e, IndexError):
-            _chat(sock, "I don't know what to roll! Try specifying a die using something like: !roll 20")
-        elif isinstance(e, ValueError):
-            _chat(sock, "Pfff, it makes no sense to roll that. I'm not doing it.")
+    except IndexError:
+        return "I don't know what to roll! Try specifying a die using something like: !roll 20"
+    except ValueError:
+        return "Pfff, it makes no sense to roll that. I'm not doing it."
+
+    rollNumber = _R.randint(1, dsides)
+    rollString = "I rolled a D" + str(dsides)
+    if dsides > 20:
+        rollString += " (it was a REALLY big one)"
+    rollString += ", and got " + str(rollNumber) + "."
+    return rollString
 
 
 def buydrink(args):
